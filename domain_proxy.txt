@@ -1,0 +1,19 @@
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (url.pathname.startsWith("/vn")) {
+      const targetUrl = "https://xyz.vn" + url.pathname.replace("/vn", "") + url.search;
+
+      const modifiedRequest = new Request(targetUrl, {
+        method: request.method,
+        headers: request.headers,
+        body: request.body,
+      });
+
+      return fetch(modifiedRequest);
+    }
+
+    return new Response("Not found", { status: 404 });
+  },
+};
+
